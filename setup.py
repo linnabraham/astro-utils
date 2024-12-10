@@ -6,7 +6,7 @@ setup(
     version='0.1.0',
     author='Linn Abraham',
     author_email='linn.official@gmail.com',
-    description='A python package for utility scripts and functions in several astronomy domains'
+    description='A python package for utility scripts and functions in several astronomy domains',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
     url='https://github.com/linnabraham/astro-utils',  # Update with your repository URL
