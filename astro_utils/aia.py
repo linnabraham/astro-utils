@@ -1,3 +1,4 @@
+#!/bin/env python3
 import sunpy.visualization.colormaps as cm
 import matplotlib
 import matplotlib.pyplot as plt

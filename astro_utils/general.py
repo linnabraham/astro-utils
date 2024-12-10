@@ -1,3 +1,4 @@
+#!/bin/env python3
 from astropy.io import fits
 
 def read_fits_single(file_path):
