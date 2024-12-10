@@ -6,3 +6,9 @@ A simple package containing scripts for astrophysics calculations.
 ```
 pip install --force-reinstall git+https://github.com/linnabraham/astro-utils.git
 ```
+
+## Usage:
+
+```
+import astro_utils
+```
