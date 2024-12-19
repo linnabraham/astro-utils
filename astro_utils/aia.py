@@ -18,6 +18,7 @@ def plot_aia_image(data, passband, **kwargs):
         # this has no effect other than showing a preferred default value
         vmax_percentile = np.percentile(data, 99)
     plt.imshow(data, cmap=aia_cmap, origin='lower', **plot_params)
+    plt.colorbar()
     plt.axis("off")
 
 def make_aia_movie(filename, data:np.ndarray, wavelength, timestamps:list = None, vmin=None, vmax=None, aarp_id=None, label=None):
