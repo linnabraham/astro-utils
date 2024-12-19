@@ -6,9 +6,6 @@ from matplotlib.animation import FuncAnimation
 import numpy as np
 
 def plot_aia_image(data, passband, **kwargs):
-    import seaborn as sns
-    sns.set_theme()
-
     aia_cmap = matplotlib.colormaps[f'sdoaia{passband}']
     plt.figure()
     plot_params = {}
