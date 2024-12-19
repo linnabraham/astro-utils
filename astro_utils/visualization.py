@@ -23,7 +23,7 @@ class solocube:
     def frame_generator(self, data):
         for i, frame in enumerate(data):
             yield i,frame
-    def frame_viewer(self, frame_num=None, colormap=None):
+    def frame_viewer(self, frame_num=None, plot_func=None, **kwargs):
         if not frame_num is None:
             if self.frame_num is None:
                 self.generator = self.frame_generator(self.data[frame_num:])
@@ -37,7 +37,12 @@ class solocube:
         else:
             print(f"Internal frame:{i}")
             print(f"{self.frame_num=}")
-            cmap = colormap or self.colormap
-            plt.imshow(frame, cmap=cmap)
-            plt.colorbar()
+            if plot_func:
+                plot_func(frame, **kwargs)
+            else:
+                self.plot_frame(frame)
             return frame
+    def plot_frame(self, frame):
+        plt.imshow(frame, cmap="virdis")
+        plt.colorbar()
+        plt.show()
