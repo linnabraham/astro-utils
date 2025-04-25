@@ -16,3 +16,9 @@ Example usage:
 >>> from astro_utils.aia import plot_aia_image
 >>> from astro_utils.flare import fetch_goes_data
 """
+
+from .general import read_fits_single
+
+__all__ = [
+    'read_fits_single',
+]
