@@ -17,7 +17,7 @@ Example usage:
 >>> from astro_utils.flare import fetch_goes_data
 """
 
-from .general import read_fits_single
+from .utils import read_fits_single
 
 __all__ = [
     'read_fits_single',
