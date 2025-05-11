@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 import numpy as np
 
-def plot_aia_image(data, passband, **kwargs):
+def plot_aia_image(data, passband, ax=None, show_colorbar=False, **kwargs):
     """
     Plot a single AIA image with the appropriate colormap for the given passband.
 
@@ -35,19 +35,16 @@ def plot_aia_image(data, passband, **kwargs):
         Displays the plot using matplotlib
     """
     aia_cmap = matplotlib.colormaps[f'sdoaia{passband}']
-    plt.figure()
-    plot_params = {}
-    if 'vmax' in kwargs:
-        plot_params['vmax'] = kwargs['vmax']
-    elif 'vmax_percentile' in kwargs:
+    if ax is None:
+        fig, ax = plt.subplots()
+    if 'vmax_percentile' in kwargs:
         # TODO: validate the vmax_percentile value input
-        plot_params['vmax'] = np.percentile(data, kwargs['vmax_percentile'])
-    else:
-        # this has no effect other than showing a preferred default value
-        vmax_percentile = np.percentile(data, 99)
-    plt.imshow(data, cmap=aia_cmap, origin='lower', **plot_params)
-    plt.colorbar()
-    plt.axis("off")
+        kwargs['vmax'] = np.percentile(data, kwargs.pop('vmax_percentile'))
+    im = ax.imshow(data, cmap=aia_cmap, origin='lower', **kwargs)
+    if show_colorbar:
+        plt.colorbar(im, ax=ax)
+    ax.axis("off")
+    return im
 
 def make_aia_movie(filename, data:np.ndarray, wavelength, timestamps:list = None, 
                    vmin=None, vmax=None, aarp_id=None, label=None):
