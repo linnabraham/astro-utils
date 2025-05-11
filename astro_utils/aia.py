@@ -1,4 +1,11 @@
 #!/bin/env python3
+"""
+Functions for visualizing SDO/AIA (Solar Dynamics Observatory/Atmospheric Imaging Assembly) data.
+
+This module provides utilities for plotting and animating AIA images using the appropriate
+SDO color maps for different wavelength passbands.
+"""
+
 import sunpy.visualization.colormaps as cm
 import matplotlib
 import matplotlib.pyplot as plt
@@ -6,6 +13,27 @@ from matplotlib.animation import FuncAnimation
 import numpy as np
 
 def plot_aia_image(data, passband, **kwargs):
+    """
+    Plot a single AIA image with the appropriate colormap for the given passband.
+
+    Parameters
+    ----------
+    data : numpy.ndarray
+        2D array containing the AIA image data
+    passband : int or str
+        AIA passband wavelength (e.g., 171, 193, 211)
+    **kwargs : dict
+        Optional keyword arguments:
+            vmax : float
+                Maximum value for the color scaling
+            vmax_percentile : float
+                Percentile value (0-100) to use for setting vmax
+
+    Returns
+    -------
+    None
+        Displays the plot using matplotlib
+    """
     aia_cmap = matplotlib.colormaps[f'sdoaia{passband}']
     plt.figure()
     plot_params = {}
@@ -21,8 +49,35 @@ def plot_aia_image(data, passband, **kwargs):
     plt.colorbar()
     plt.axis("off")
 
-def make_aia_movie(filename, data:np.ndarray, wavelength, timestamps:list = None, vmin=None, vmax=None, aarp_id=None, label=None):
+def make_aia_movie(filename, data:np.ndarray, wavelength, timestamps:list = None, 
+                   vmin=None, vmax=None, aarp_id=None, label=None):
+    """
+    Create an animation from a sequence of AIA images.
 
+    Parameters
+    ----------
+    filename : str
+        Output filename for the movie (should end in a valid movie extension)
+    data : numpy.ndarray
+        3D array containing the sequence of AIA images (time, y, x)
+    wavelength : int or str
+        AIA passband wavelength
+    timestamps : list, optional
+        List of timestamp strings for each frame
+    vmin : float, optional
+        Minimum value for scaling the images
+    vmax : float, optional
+        Maximum value for scaling the images
+    aarp_id : str, optional
+        AARP ID to display in the title
+    label : str, optional
+        Additional label to display in the title
+
+    Returns
+    -------
+    None
+        Saves the animation to the specified filename
+    """
     cmap_key = 'sdoaia'+str(wavelength)
     sdoaia_cmap = matplotlib.colormaps[cmap_key]
     nframes = data.shape[0]

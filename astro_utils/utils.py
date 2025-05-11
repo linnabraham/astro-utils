@@ -1,4 +1,16 @@
 #!/bin/env python3
+"""
+This script provides utility functions for common tasks in astronomy.
+Dependencies:
+- astropy: A Python library for astronomy-related computations and file handling.
+
+Usage:
+Import the `read_fits_single` function from this script to read FITS files in your projects.
+
+Example:
+data = read_fits_single("example.fits")
+"""
+
 from astropy.io import fits
 
 def read_fits_single(file_path):
