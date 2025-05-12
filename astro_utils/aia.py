@@ -39,7 +39,9 @@ def plot_aia_image(data, passband, ax=None, show_colorbar=False, **kwargs):
         fig, ax = plt.subplots()
     if 'vmax_percentile' in kwargs:
         # TODO: validate the vmax_percentile value input
-        kwargs['vmax'] = np.percentile(data, kwargs.pop('vmax_percentile'))
+        vmax_percentile = kwargs.pop('vmax_percentile')
+        if vmax_percentile is not None:
+            kwargs['vmax'] = np.percentile(data, vmax_percentile)
     im = ax.imshow(data, cmap=aia_cmap, origin='lower', **kwargs)
     if show_colorbar:
         plt.colorbar(im, ax=ax)
