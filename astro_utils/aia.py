@@ -6,6 +6,7 @@ This module provides utilities for plotting and animating AIA images using the a
 SDO color maps for different wavelength passbands.
 """
 
+import math
 import sunpy.visualization.colormaps as cm
 import matplotlib
 import matplotlib.pyplot as plt
@@ -47,6 +48,61 @@ def plot_aia_image(data, passband, ax=None, show_colorbar=False, **kwargs):
         plt.colorbar(im, ax=ax)
     ax.axis("off")
     return im
+
+
+def plot_aia_image_grid(images, passbands, cols=4, gap=0, dpi=100, vmax_percentile=None, show=False):
+    """
+    Plot a grid of AIA images, each with its corresponding colormap based on passband.
+
+    Parameters
+    ----------
+    images : np.ndarray
+        Array of shape [n, H, W] where each [H, W] image corresponds to a passband
+    passbands : list of int or str
+        List of AIA wavelengths matching the order of `images`
+    cols : int
+        Number of columns in the image grid
+    gap : int
+        Pixel gap between images
+    dpi : int
+        Resolution of the output figure
+    vmax_percentile : float or None
+        If given, compute vmax for each image from this percentile
+    show : bool
+        If True, displays the figure; otherwise returns it
+
+    Returns
+    -------
+    fig : matplotlib.figure.Figure or None
+        The resulting figure if show=False; otherwise None
+    """
+    assert images.shape[0] == len(passbands), "Number of images and passbands must match"
+    n, H, W = images.shape
+    rows = math.ceil(n / cols)
+
+    total_width_px = cols * W + (cols - 1) * gap
+    total_height_px = rows * H + (rows - 1) * gap
+    figsize = (total_width_px / dpi, total_height_px / dpi)
+
+    fig = plt.figure(figsize=figsize, dpi=dpi)
+
+    for idx, (image, passband) in enumerate(zip(images, passbands)):
+        row = idx // cols
+        col = idx % cols
+
+        left = (col * (W + gap)) / total_width_px
+        bottom = 1 - ((row + 1) * H + row * gap) / total_height_px
+        width = W / total_width_px
+        height = H / total_height_px
+
+        ax = fig.add_axes([left, bottom, width, height])
+        plot_aia_image(image, passband, ax=ax, show_colorbar=False, vmax_percentile=vmax_percentile)
+
+    if show:
+        plt.show()
+    else:
+        plt.close(fig)
+        return fig
 
 def make_aia_movie(filename, data:np.ndarray, wavelength, timestamps:list = None, 
                    vmin=None, vmax=None, aarp_id=None, label=None):
