@@ -11,9 +11,9 @@ setup(
     long_description_content_type='text/markdown',
     url='https://github.com/linnabraham/astro-utils',  # Update with your repository URL
     packages=find_packages(),  # Automatically finds your package
+    license="MIT",
     classifiers=[
         'Programming Language :: Python :: 3',
-        'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
     ],
     python_requires='>=3.6',
